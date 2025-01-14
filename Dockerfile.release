@@ -3,7 +3,8 @@ FROM registry.access.redhat.com/ubi9/ubi-minimal:latest AS build
 RUN microdnf update --nodocs --assumeyes  && microdnf install ca-certificates --nodocs --assumeyes 
 RUN microdnf install automake gcc libtool git --nodocs --assumeyes && \
     cd /tmp && git clone --recursive https://github.com/jqlang/jq.git && cd jq && \
-    git checkout $(git describe --abbrev=0 --tags) && \
+    #git checkout $(git describe --abbrev=0 --tags) && \
+    git checkout jq-1.7.1 && \
     autoreconf -i && \
     ./configure && \
     make
