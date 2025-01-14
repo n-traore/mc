@@ -26,4 +26,6 @@ jobs:
     - name: Build and push to dockerhub
       run: |
         release=$(git describe --abbrev=0 --tags)
-        docker buildx build --push --no-cache --build-arg RELEASE="${release}" -t "minio/mc:${release}" --platform=linux/amd64 -f Dockerfile.release .
+        docker buildx build --push --no-cache --build-arg RELEASE="${release}" -t "${DOCKERHUB_USER}/mc:${release}" --platform=linux/amd64 -f Dockerfile.release .
+      env:
+        DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
