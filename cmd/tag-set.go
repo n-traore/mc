@@ -141,7 +141,7 @@ func parseSetTagSyntax(ctx *cli.Context) (targetURL, versionID string, timeRef t
 	}
 
 	timeRef = parseRewindFlag(rewind)
-	return
+	return targetURL, versionID, timeRef, withVersions, tags, recursive, excludeFolders
 }
 
 // Set tags to a bucket or to a specified object/version

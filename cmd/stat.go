@@ -449,7 +449,7 @@ func countDigits(num uint64) (count uint) {
 		num /= 10
 		count++
 	}
-	return
+	return count
 }
 
 func (v bucketInfoMessage) String() string {

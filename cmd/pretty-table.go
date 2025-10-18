@@ -81,5 +81,5 @@ func (t PrettyTable) buildRow(contents ...string) (line string) {
 		// Add the field to the resulted message
 		line += console.Colorize(t.cols[i].colorTheme, fmt.Sprintf(fieldFormat, fieldContent))
 	}
-	return
+	return line
 }

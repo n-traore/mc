@@ -191,7 +191,7 @@ func parseLegalHoldArgs(cliCtx *cli.Context) (targetURL, versionID string, timeR
 	}
 
 	timeRef = parseRewindFlag(rewind)
-	return
+	return targetURL, versionID, timeRef, recursive, withVersions
 }
 
 // main for legalhold set command.

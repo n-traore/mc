@@ -176,5 +176,5 @@ func listAliases(alias string, deprecated bool) (aliases []aliasMessage) {
 
 	// Sort by alias names lexically.
 	sort.Sort(byAlias(aliases))
-	return
+	return aliases
 }

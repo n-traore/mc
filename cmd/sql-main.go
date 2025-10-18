@@ -344,7 +344,7 @@ func isSelectAll(query string) bool {
 // query object
 func getCSVOutputHeaders(ctx *cli.Context, url string, encKeyDB map[string][]prefixSSEPair, query string) (hdrs []string) {
 	if !ctx.IsSet("csv-output-header") {
-		return
+		return hdrs
 	}
 
 	hdrStr := ctx.String("csv-output-header")
@@ -355,7 +355,7 @@ func getCSVOutputHeaders(ctx *cli.Context, url string, encKeyDB map[string][]pre
 		}
 	}
 	hdrs = strings.Split(hdrStr, ",")
-	return
+	return hdrs
 }
 
 // get the Select options for sql select API
@@ -422,7 +422,7 @@ func getAndValidateArgs(ctx *cli.Context, encKeyDB map[string][]prefixSSEPair, u
 	csvHdrs = getCSVOutputHeaders(ctx, url, encKeyDB, query)
 	selOpts = getSQLOpts(ctx, csvHdrs)
 	validateOpts(selOpts, url)
-	return
+	return query, csvHdrs, selOpts
 }
 
 // check sql input arguments.

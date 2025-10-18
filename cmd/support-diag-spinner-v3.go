@@ -104,5 +104,5 @@ func receiveHealthInfo(decoder *json.Decoder) (info madmin.HealthInfo, e error) 
 		}
 	}()
 	pg.Wait()
-	return
+	return info, e
 }

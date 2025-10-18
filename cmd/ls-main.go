@@ -128,7 +128,7 @@ func parseRewindFlag(rewind string) (timeRef time.Time) {
 	if rewind != "" {
 		location, e := time.LoadLocation("Local")
 		if e != nil {
-			return
+			return timeRef
 		}
 
 		for _, format := range rewindSupportedFormat {
@@ -154,7 +154,7 @@ func parseRewindFlag(rewind string) (timeRef time.Time) {
 			fatalIf(probe.NewError(errors.New("unknown format")), "Unable to parse --rewind argument")
 		}
 	}
-	return
+	return timeRef
 }
 
 // checkListSyntax - validate all the passed arguments

@@ -111,7 +111,7 @@ func parseInfoRetentionArgs(cliCtx *cli.Context) (target, versionID string, recu
 		fatalIf(errDummy(), "--default flag cannot be specified with any of --version-id, --rewind, --versions, --recursive.")
 	}
 
-	return
+	return target, versionID, recursive, timeRef, withVersions, defaultMode
 }
 
 // Structured message depending on the type of console.

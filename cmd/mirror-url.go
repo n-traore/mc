@@ -88,7 +88,7 @@ func checkMirrorSyntax(ctx context.Context, cliCtx *cli.Context, encKeyDB map[st
 		}
 	}
 
-	return
+	return srcURL, tgtURL
 }
 
 func matchExcludeOptions(excludeOptions []string, srcSuffix string, typ ClientURLType) bool {

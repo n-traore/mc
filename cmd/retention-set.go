@@ -124,7 +124,7 @@ func parseSetRetentionArgs(cliCtx *cli.Context) (target, versionID string, recur
 		fatalIf(errDummy(), "--default cannot be specified with any of --version-id, --rewind, --versions, --recursive, --bypass.")
 	}
 
-	return
+	return target, versionID, recursive, timeRef, withVersions, mode, validity, unit, bypass, bucketMode
 }
 
 // Set Retention for one object/version or many objects within a given prefix.

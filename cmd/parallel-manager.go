@@ -257,7 +257,7 @@ func availableMemory() (available uint64) {
 		// the most common page size on x86 systems - for cgroup_limits.
 		if available != 9223372036854771712 {
 			// This means cgroup memory limit is configured.
-			return
+			return available
 		} // no-limit set proceed to set the limits based on virtual memory.
 
 	} // for all other platforms limits are based on virtual memory.
@@ -269,7 +269,7 @@ func availableMemory() (available uint64) {
 
 	// Always use 50% of available memory.
 	available = available / 2
-	return
+	return available
 }
 
 // newParallelManager starts new workers waiting for executing tasks

@@ -824,7 +824,7 @@ func srStatusOpts(ctx *cli.Context) (opts madmin.SRStatusOptions) {
 		opts.Policies = true
 		opts.Metrics = true
 		opts.ILMExpiryRules = true
-		return
+		return opts
 	}
 	opts.Buckets = ctx.Bool("buckets")
 	opts.Policies = ctx.Bool("policies")
@@ -838,7 +838,7 @@ func srStatusOpts(ctx *cli.Context) (opts madmin.SRStatusOptions) {
 			break
 		}
 	}
-	return
+	return opts
 }
 
 func mainAdminReplicationStatus(ctx *cli.Context) error {

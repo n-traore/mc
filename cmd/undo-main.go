@@ -143,12 +143,12 @@ func parseUndoSyntax(ctx *cli.Context) (targetAliasedURL string, last int, recur
 	if (action == actionPut || action == actionDelete) && last != 1 {
 		fatalIf(errInvalidArgument().Trace(), "--action if specified requires that you must specify --last=1")
 	}
-	return
+	return targetAliasedURL, last, recursive, dryRun, action
 }
 
 func undoLastNOperations(ctx context.Context, clnt Client, objectVersions []*ClientContent, last int, dryRun bool) (exitErr error) {
 	if last == 0 {
-		return
+		return exitErr
 	}
 
 	sortObjectVersions(objectVersions)
@@ -197,7 +197,7 @@ func undoLastNOperations(ctx context.Context, clnt Client, objectVersions []*Cli
 		}
 	}
 
-	return
+	return exitErr
 }
 
 func undoURL(ctx context.Context, aliasedURL string, last int, recursive, dryRun bool, action string) (exitErr error) {
@@ -261,7 +261,7 @@ func undoURL(ctx context.Context, aliasedURL string, last int, recursive, dryRun
 		exitErr = exitStatus(globalErrorExitStatus) // Set the exit status.
 	}
 
-	return
+	return exitErr
 }
 
 func checkIfBucketIsVersioned(ctx context.Context, aliasedURL string) (versioned bool) {

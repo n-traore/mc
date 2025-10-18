@@ -164,7 +164,7 @@ func (ui *uiData) getProgress() (oCount, objSize, duration string) {
 	}
 	numUnits := int(bytesScanned * (1 << 10) / magnitudes[i])
 	objSize = fmt.Sprintf("%d %s", numUnits, units[i])
-	return
+	return oCount, objSize, duration
 }
 
 func (ui *uiData) getPercentsNBars() (p map[col]float64, b map[col]string) {
@@ -190,7 +190,7 @@ func (ui *uiData) getPercentsNBars() (p map[col]float64, b map[col]string) {
 		b[col] = strings.Repeat(barChar, filledLen) +
 			strings.Repeat(emptyBarChar, barLen-filledLen)
 	}
-	return
+	return p, b
 }
 
 func (ui *uiData) printItemsQuietly(s *madmin.HealTaskStatus) (err error) {

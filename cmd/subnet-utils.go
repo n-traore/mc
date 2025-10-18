@@ -157,7 +157,7 @@ func subnetHTTPDo(req *http.Request) (resp *http.Response, err error) {
 	if err == nil && globalDebug {
 		dumpHTTPReq(req, resp)
 	}
-	return
+	return resp, err
 }
 
 // dumpHTTP - dump HTTP request and response.

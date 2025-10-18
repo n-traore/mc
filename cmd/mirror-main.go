@@ -637,7 +637,7 @@ func (mj *mirrorJob) monitorMirrorStatus(cancel context.CancelFunc) (errDuringMi
 		}
 	}
 
-	return
+	return errDuringMirror
 }
 
 func (mj *mirrorJob) watchMirrorEvents(ctx context.Context, events []EventInfo) {

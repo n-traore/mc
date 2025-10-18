@@ -129,7 +129,7 @@ func parseRemoveTagSyntax(ctx *cli.Context) (targetURL, versionID string, timeRe
 	}
 
 	timeRef = parseRewindFlag(rewind)
-	return
+	return targetURL, versionID, timeRef, withVersions, recursive
 }
 
 // Delete tags of a bucket or a specified object/version

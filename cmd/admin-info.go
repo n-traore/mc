@@ -126,7 +126,7 @@ func endpointToPools(endpoint string, c clusterInfo) (pools []int) {
 		}
 	}
 	sort.Ints(pools)
-	return
+	return pools
 }
 
 // Wrap "Info" message together with fields "Status" and "Error"
@@ -358,7 +358,7 @@ func (u clusterStruct) String() (msg string) {
 	// Remove the last new line if any
 	// since this is a String() function
 	msg = strings.TrimSuffix(msg, "\n")
-	return
+	return msg
 }
 
 // JSON jsonifies service status message.

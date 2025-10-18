@@ -196,7 +196,7 @@ func (s serverInfo) onlineDisksForSet(index setIndex) (setFound bool, count int)
 			count++
 		}
 	}
-	return
+	return setFound, count
 }
 
 // Get all drives from set statuses

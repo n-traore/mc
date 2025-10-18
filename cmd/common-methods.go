@@ -146,7 +146,7 @@ func isReadAt(reader io.Reader) (ok bool) {
 			}
 		}
 	}
-	return
+	return ok
 }
 
 // getSourceStream gets a reader from URL.

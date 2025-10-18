@@ -452,7 +452,7 @@ func matchingOpts(ctx *cli.Context) (opts matchOpts) {
 	}
 	opts.requestSize = requestSize
 	opts.responseSize = responseSize
-	return
+	return opts
 }
 
 // Calculate tracing options for command line flags
@@ -470,7 +470,7 @@ func tracingOpts(ctx *cli.Context, apis []string) (opts madmin.ServiceTraceOpts,
 		// If api flag is not specified, then we will
 		// trace only S3 requests by default.
 		opts.S3 = true
-		return
+		return opts, e
 	}
 
 	for _, api := range apis {
@@ -485,7 +485,7 @@ func tracingOpts(ctx *cli.Context, apis []string) (opts madmin.ServiceTraceOpts,
 			fn(&opts)
 		}
 	}
-	return
+	return opts, e
 }
 
 // mainAdminTrace - the entry function of trace command

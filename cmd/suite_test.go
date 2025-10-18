@@ -238,7 +238,7 @@ func openFileAndGetMd5Sum(path string) (md5s string, err error) {
 		return "", err
 	}
 	md5s = GetMD5Sum(fb)
-	return
+	return md5s, err
 }
 
 func GetMBSizeInBytes(MB int) int64 {
@@ -465,18 +465,18 @@ func CreateBucket(t *testing.T) (bucketPath string) {
 	out, err := RunMC("mb", bucketPath)
 	if err != nil {
 		t.Fatalf("Unable to create bucket (%s) err: %s", bucketPath, out)
-		return
+		return bucketPath
 	}
 	bucketList = append(bucketList, bucketPath)
 	out, err = RunMC("stat", defaultAlias+"/"+bucketName)
 	if err != nil {
 		t.Fatalf("Unable to ls stat (%s) err: %s", defaultAlias+"/"+bucketName, out)
-		return
+		return bucketPath
 	}
 	if !strings.Contains(out, bucketName) {
 		t.Fatalf("stat output does not contain bucket name (%s)", bucketName)
 	}
-	return
+	return bucketPath
 }
 
 func AddALIASWithError(t *testing.T) {
@@ -2613,7 +2613,7 @@ func GetSource(skip int) (out string) {
 		name = sn[len(sn)-1]
 	}
 	out = file + ":" + fmt.Sprint(line) + ":" + name
-	return
+	return out
 }
 
 func GetMD5Sum(data []byte) string {
@@ -2669,7 +2669,7 @@ func parseFindJSONOutput(out string) (findList []*findMessage, err error) {
 		line := new(findMessage)
 		err = json.Unmarshal(v, line)
 		if err != nil {
-			return
+			return findList, err
 		}
 		findList = append(findList, line)
 	}
@@ -2681,7 +2681,7 @@ func parseFindJSONOutput(out string) (findList []*findMessage, err error) {
 		}
 		fmt.Println(" ------------------------------")
 	}
-	return
+	return findList, err
 }
 
 func parseDUJSONOutput(out string) (duList []duMessage, err error) {
@@ -2695,7 +2695,7 @@ func parseDUJSONOutput(out string) (duList []duMessage, err error) {
 		line := duMessage{}
 		err = json.Unmarshal(v, &line)
 		if err != nil {
-			return
+			return duList, err
 		}
 		duList = append(duList, line)
 	}
@@ -2707,7 +2707,7 @@ func parseDUJSONOutput(out string) (duList []duMessage, err error) {
 		}
 		fmt.Println(" ------------------------------")
 	}
-	return
+	return duList, err
 }
 
 func parseLSJSONOutput(out string) (lsList []contentMessage, err error) {
@@ -2721,7 +2721,7 @@ func parseLSJSONOutput(out string) (lsList []contentMessage, err error) {
 		line := contentMessage{}
 		err = json.Unmarshal(v, &line)
 		if err != nil {
-			return
+			return lsList, err
 		}
 		lsList = append(lsList, line)
 	}
@@ -2733,13 +2733,13 @@ func parseLSJSONOutput(out string) (lsList []contentMessage, err error) {
 		}
 		fmt.Println(" ------------------------------")
 	}
-	return
+	return lsList, err
 }
 
 func parseFindSingleObjectJSONOutput(out string) (findInfo contentMessage, err error) {
 	err = json.Unmarshal([]byte(out), &findInfo)
 	if err != nil {
-		return
+		return findInfo, err
 	}
 
 	if printRawOut {
@@ -2747,13 +2747,13 @@ func parseFindSingleObjectJSONOutput(out string) (findInfo contentMessage, err e
 		fmt.Println(findInfo)
 		fmt.Println(" ------------------------------")
 	}
-	return
+	return findInfo, err
 }
 
 func parseStatSingleObjectJSONOutput(out string) (stat statMessage, err error) {
 	err = json.Unmarshal([]byte(out), &stat)
 	if err != nil {
-		return
+		return stat, err
 	}
 
 	if printRawOut {
@@ -2761,7 +2761,7 @@ func parseStatSingleObjectJSONOutput(out string) (stat statMessage, err error) {
 		fmt.Println(stat)
 		fmt.Println(" ------------------------------")
 	}
-	return
+	return stat, err
 }
 
 // We have to wrap the error output because the console
@@ -2818,7 +2818,7 @@ func parseUserMessageListOutput(out string) (users []*userMessage, err error) {
 		msg := new(userMessage)
 		err = json.Unmarshal(v, msg)
 		if err != nil {
-			return
+			return users, err
 		}
 		users = append(users, msg)
 	}
@@ -2831,52 +2831,52 @@ func parseUserMessageListOutput(out string) (users []*userMessage, err error) {
 		fmt.Println(" ------------------------------")
 	}
 
-	return
+	return users, err
 }
 
 func parseShareMessageFromJSONOutput(out string) (share *shareMessage, err error) {
 	share = new(shareMessage)
 	err = json.Unmarshal([]byte(out), share)
-	return
+	return share, err
 }
 
 func parseSingleErrorMessageJSONOutput(out string) (errMSG errorMessageWrapper, err error) {
 	err = json.Unmarshal([]byte(out), &errMSG)
 	if err != nil {
-		return
+		return errMSG, err
 	}
 
 	fmt.Println("ERROR ------------------------------")
 	fmt.Println(errMSG)
 	fmt.Println(" ------------------------------")
-	return
+	return errMSG, err
 }
 
 func parseSingleODMessageJSONOutput(out string) (odMSG odMessage, err error) {
 	err = json.Unmarshal([]byte(out), &odMSG)
 	if err != nil {
-		return
+		return odMSG, err
 	}
 
-	return
+	return odMSG, err
 }
 
 func parseSingleAccountStatJSONOutput(out string) (stat accountStat, err error) {
 	err = json.Unmarshal([]byte(out), &stat)
 	if err != nil {
-		return
+		return stat, err
 	}
 
-	return
+	return stat, err
 }
 
 func parseSingleCPMessageJSONOutput(out string) (cpMSG copyMessage, err error) {
 	err = json.Unmarshal([]byte(out), &cpMSG)
 	if err != nil {
-		return
+		return cpMSG, err
 	}
 
-	return
+	return cpMSG, err
 }
 
 type newTestFile struct {
@@ -2925,7 +2925,7 @@ func (f *testFile) String() (out string) {
 		f.fileNameWithoutPath,
 		f.md5Sum,
 	)
-	return
+	return out
 }
 
 func createFile(nf newTestFile) (newTestFile *testFile) {
@@ -3038,7 +3038,7 @@ func RunMC(parameters ...string) (out string, err error) {
 	}
 	out = string(outBytes)
 	err = outErr
-	return
+	return out, err
 }
 
 func RunCommand(cmd string, parameters ...string) (out string, err error) {
@@ -3054,5 +3054,5 @@ func RunCommand(cmd string, parameters ...string) (out string, err error) {
 	}
 	out = string(outBytes)
 	err = outErr
-	return
+	return out, err
 }

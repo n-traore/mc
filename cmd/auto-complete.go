@@ -113,7 +113,7 @@ func completeS3Path(s3Path string) (prediction []string) {
 		prediction = append(prediction, completeS3Path(prediction[0])...)
 	}
 
-	return
+	return prediction
 }
 
 type adminConfigComplete struct{}
@@ -126,12 +126,12 @@ func (adm adminConfigComplete) Predict(a complete.Args) (prediction []string) {
 	loadMcConfig = loadMcConfigFactory()
 	conf, err := loadMcConfig()
 	if err != nil {
-		return
+		return prediction
 	}
 
 	// We have already predicted the keys, we are done.
 	if len(a.Completed) == 3 {
-		return
+		return prediction
 	}
 
 	arg := a.Last
@@ -150,7 +150,7 @@ func (adm adminConfigComplete) Predict(a complete.Args) (prediction []string) {
 	} else {
 		prediction = completeAdminConfigKeys(lastArg, arg)
 	}
-	return
+	return prediction
 }
 
 // s3Complete knows how to complete an mc s3 path
@@ -192,7 +192,7 @@ func (s3 s3Complete) Predict(a complete.Args) (prediction []string) {
 		prediction = completeS3Path(arg)
 	}
 
-	return
+	return prediction
 }
 
 // aliasComplete only completes aliases
@@ -216,7 +216,7 @@ func (al aliasComplete) Predict(a complete.Args) (prediction []string) {
 		}
 	}
 
-	return
+	return prediction
 }
 
 var (

@@ -110,7 +110,7 @@ func parseClearRetentionArgs(cliCtx *cli.Context) (target, versionID string, tim
 		fatalIf(errDummy(), "--default cannot be specified with any of --version-id, --rewind, --versions or --recursive.")
 	}
 
-	return
+	return target, versionID, timeRef, withVersions, recursive, bucketMode
 }
 
 // Clear Retention for one object/version or many objects within a given prefix, bypass governance is always enabled

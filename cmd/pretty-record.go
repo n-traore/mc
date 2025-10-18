@@ -76,5 +76,5 @@ func (t PrettyRecord) buildRecord(contents ...string) (line string) {
 			line += console.Colorize(t.rows[i].descTheme, fmt.Sprintf(format, contents[i]))
 		}
 	}
-	return
+	return line
 }

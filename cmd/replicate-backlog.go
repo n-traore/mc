@@ -146,13 +146,13 @@ func (r replicateBacklogMessage) toRow() (row table.Row) {
 	case "mrf":
 		return r.toMRFRow()
 	}
-	return
+	return row
 }
 
 func (r replicateBacklogMessage) toDiffRow() (row table.Row) {
 	d := r.Diff
 	if d.Object == "" {
-		return
+		return row
 	}
 	op := ""
 	if d.VersionID != "" {
@@ -179,7 +179,7 @@ func (r replicateBacklogMessage) toDiffRow() (row table.Row) {
 func (r replicateBacklogMessage) toMRFRow() (row table.Row) {
 	d := r.MRF
 	if d.Object == "" {
-		return
+		return row
 	}
 	return table.Row{
 		d.NodeName, d.VersionID, strconv.Itoa(d.RetryCount), path.Join(d.Bucket, d.Object),

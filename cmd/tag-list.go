@@ -163,7 +163,7 @@ func parseTagListSyntax(ctx *cli.Context) (targetURL, versionID string, timeRef 
 	}
 
 	timeRef = parseRewindFlag(rewind)
-	return
+	return targetURL, versionID, timeRef, withVersions, recursive
 }
 
 // showTags pretty prints tags of a bucket or a specified object/version

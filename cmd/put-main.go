@@ -190,16 +190,16 @@ func mainPut(cliCtx *cli.Context) (e error) {
 		select {
 		case <-ctx.Done():
 			showLastProgressBar(pg, nil)
-			return
+			return e
 		case putURLs, ok := <-putURLsCh:
 			if !ok {
 				showLastProgressBar(pg, nil)
-				return
+				return e
 			}
 			if putURLs.Error != nil {
 				printPutURLsError(&putURLs)
 				showLastProgressBar(pg, putURLs.Error.ToGoError())
-				return
+				return e
 			}
 			urls := doCopy(ctx, doCopyOpts{
 				cpURLs:           putURLs,
@@ -212,7 +212,7 @@ func mainPut(cliCtx *cli.Context) (e error) {
 			if urls.Error != nil {
 				showLastProgressBar(pg, urls.Error.ToGoError())
 				fatalIf(urls.Error.Trace(), "unable to upload")
-				return
+				return e
 			}
 		}
 	}

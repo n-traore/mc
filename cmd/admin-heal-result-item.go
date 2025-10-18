@@ -46,14 +46,14 @@ func (h hri) getObjectHCCChange() (b, a col, err error) {
 	if err != nil {
 		err = fmt.Errorf("%w: surplusShardsBeforeHeal: %d, parityShards: %d",
 			err, surplusShardsBeforeHeal, parityShards)
-		return
+		return b, a, err
 	}
 	a, err = getHColCode(surplusShardsAfterHeal, parityShards)
 	if err != nil {
 		err = fmt.Errorf("%w: surplusShardsAfterHeal: %d, parityShards: %d",
 			err, surplusShardsAfterHeal, parityShards)
 	}
-	return
+	return b, a, err
 }
 
 // getBucketHCCChange - fetches health color code for bucket healing
@@ -93,7 +93,7 @@ func (h hri) getBucketHCCChange() (b, a col, err error) {
 	if len(h.After.Drives) > 0 {
 		a = getColCode(h.After.Drives)
 	}
-	return
+	return b, a, err
 }
 
 // getReplicatedFileHCCChange - fetches health color code for metadata
@@ -115,16 +115,16 @@ func (h hri) getReplicatedFileHCCChange() (b, a col, err error) {
 			parity = h.DiskCount - quorum
 		}
 		c, err = getHColCode(surplus, parity)
-		return
+		return c, err
 	}
 
 	onlineBefore, onlineAfter := h.GetOnlineCounts()
 	b, err = getColCode(onlineBefore)
 	if err != nil {
-		return
+		return b, a, err
 	}
 	a, err = getColCode(onlineAfter)
-	return
+	return b, a, err
 }
 
 func (h hri) makeHealEntityString() string {
@@ -158,7 +158,7 @@ func (h hri) getHRTypeAndName() (typ, name string) {
 		typ = fmt.Sprintf("!! Unknown heal result record %#v !!", h)
 		name = typ
 	}
-	return
+	return typ, name
 }
 
 func (h hri) getHealResultStr() string {

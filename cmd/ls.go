@@ -161,7 +161,7 @@ func generateContentMessages(clntURL ClientURL, ctnts []*ClientContent, printAll
 			break
 		}
 	}
-	return
+	return msgs
 }
 
 func sortObjectVersions(ctntVersions []*ClientContent) {

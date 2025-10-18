@@ -178,7 +178,7 @@ func validateOverLappingSSEKeys(keyMap []prefixSSEPair) (err *probe.Error) {
 			}
 		}
 	}
-	return
+	return err
 }
 
 func splitKey(sseKey string) (alias, prefix string) {
@@ -204,14 +204,14 @@ func parseSSEKey(sseKey string, keyType sseKeyType) (
 	if separatorIndex < 0 {
 		if keyType == sseS3 {
 			alias, prefix = splitKey(sseKey)
-			return
+			return alias, prefix, key, err
 		}
 		err = errSSEKeyMissing().Trace(sseKey)
-		return
+		return alias, prefix, key, err
 	}
 	if separatorIndex == len(sseKeyBytes)-1 {
 		err = errSSEKeyMissing().Trace(sseKey)
-		return
+		return alias, prefix, key, err
 	}
 
 	encodedKey := string(sseKeyBytes[separatorIndex+1:])
@@ -221,7 +221,7 @@ func parseSSEKey(sseKey string, keyType sseKeyType) (
 			err = errSSEKMSKeyFormat(fmt.Sprintf("Key (%s) is badly formatted.", encodedKey)).Trace(sseKey)
 		}
 		key = encodedKey
-		return
+		return alias, prefix, key, err
 	}
 
 	var keyB []byte
@@ -239,10 +239,10 @@ func parseSSEKey(sseKey string, keyType sseKeyType) (
 	key = string(keyB)
 	if len(key) != 32 {
 		err = errSSEClientKeyFormat(fmt.Sprintf("Plain text from key (%s) is only %d bytes, but should be 32 bytes.", encodedKey, len(key))).Trace(sseKey)
-		return
+		return alias, prefix, key, err
 	}
 
-	return
+	return alias, prefix, key, err
 }
 
 func validKMSKeyName(s string) bool {

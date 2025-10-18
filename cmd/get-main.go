@@ -116,16 +116,16 @@ func mainGet(cliCtx *cli.Context) (e error) {
 		select {
 		case <-ctx.Done():
 			showLastProgressBar(pg, nil)
-			return
+			return e
 		case getURLs, ok := <-getURLsCh:
 			if !ok {
 				showLastProgressBar(pg, nil)
-				return
+				return e
 			}
 			if getURLs.Error != nil {
 				printGetURLsError(&getURLs)
 				showLastProgressBar(pg, getURLs.Error.ToGoError())
-				return
+				return e
 			}
 			urls := doCopy(ctx, doCopyOpts{
 				cpURLs:              getURLs,
@@ -136,7 +136,7 @@ func mainGet(cliCtx *cli.Context) (e error) {
 			if urls.Error != nil {
 				e = urls.Error.ToGoError()
 				showLastProgressBar(pg, e)
-				return
+				return e
 			}
 		}
 	}

@@ -184,7 +184,7 @@ func parseHeadSyntax(ctx *cli.Context) (args []string, versionID string, timeRef
 	}
 
 	timeRef = parseRewindFlag(rewind)
-	return
+	return args, versionID, timeRef
 }
 
 // mainHead is the main entry point for head command.

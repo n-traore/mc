@@ -202,7 +202,7 @@ func extractCredentialURL(argURL string) (accessKey, secretKey string, u *url.UR
 		alias, parsedURL, aliasCfg = mustExpandAlias(argURL)
 		if aliasCfg == nil {
 			fatalIf(errInvalidAliasedURL(alias).Trace(argURL), "No such alias `"+alias+"` found.")
-			return
+			return accessKey, secretKey, u
 		}
 		accessKey, secretKey = aliasCfg.AccessKey, aliasCfg.SecretKey
 	}
@@ -265,10 +265,10 @@ func getBandwidthInBytes(bandwidthStr string) (bandwidth uint64, err error) {
 	if bandwidthStr != "" {
 		bandwidth, err = humanize.ParseBytes(bandwidthStr)
 		if err != nil {
-			return
+			return bandwidth, err
 		}
 	}
-	return
+	return bandwidth, err
 }
 
 func mainReplicateAdd(cliCtx *cli.Context) error {
